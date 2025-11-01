@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chatbot</title>
+    <style>
+      /*
+ * OLD MONEY CHAT UI CSS
+ * Focus: Deep Navy, Cream/Ivory, Muted Green, Subtle Gold Accents, Serif Font (Georgia)
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Classic Serif Font */
+    font-family: 'Georgia', 'Times New Roman', serif;
+    /* Light, elegant grey/cream background */
+    background-color: #f0f3f5;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.chat-container {
+    width: 100%;
+    max-width: 600px;
+    height: 600px;
+    /* Off-white/cream background */
+    background: #ffffff;
+    /* Reduced border-radius for a more traditional look */
+    border-radius: 10px;
+    /* Softer, subtle shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    /* Subtle border for structure */
+    border: 1px solid #d0d0d0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-header {
+    /* Deep navy/oxford blue header */
+    background-color: #010e1c;
+    color: white;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* Subtle gold/brass line accent */
+    border-bottom: 3px solid #b8860b;
+}
+
+.chat-header h1 {
+    font-size: 24px;
+    /* Less bold */
+    font-weight: normal;
+    letter-spacing: 1px;
+}
+
+.clear-btn {
+    /* Muted button style */
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.clear-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.messages-area {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    /* Reduced gap slightly */
+    gap: 12px;
+    /* Very light background for the chat area */
+    background: #fcfcfc;
+}
+
+.message {
+    display: flex;
+    gap: 10px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message-content {
+    max-width: 70%;
+    padding: 10px 14px;
+    /* Slightly less rounded */
+    border-radius: 8px;
+    word-wrap: break-word;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    font-size: 15px;
+}
+
+.message.user .message-content {
+    /* Solid, deep muted color (Muted Green/Sage) */
+    background-color: #011011;
+    color: white;
+    border-bottom-right-radius: 8px;
+}
+
+.message.ai .message-content {
+    /* Light ivory/cream background */
+    background: #fffffe;
+    color: #333;
+    /* Very subtle border */
+    border: 1px solid #e5e5e5;
+    border-bottom-left-radius: 8px;
+}
+
+.typing-indicator {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: #fffffe;
+    border-radius: 8px;
+    border: 1px solid #e5e5e5;
+    width: fit-content;
+}
+
+.typing-indicator.active {
+    display: flex;
+}
+
+.typing-dot {
+    width: 7px;
+    height: 7px;
+    /* Deep navy color for dots */
+    background: #001f3f;
+    border-radius: 50%;
+    animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+    }
+    30% {
+        /* Reduced bounce height */
+        transform: translateY(-8px);
+    }
+}
+
+.input-area {
+    /* Reduced padding slightly */
+    padding: 15px 20px;
+    background: #ffffff;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 10px;
+}
+
+#userInput {
+    flex: 1;
+    padding: 10px 14px;
+    /* Softer border color */
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border 0.3s;
+}
+
+#userInput:focus {
+    /* Muted focus color */
+    border-color: #569da3;
+}
+
+.send-btn {
+    /* Solid, deep color for the button */
+    background-color: #001f3f;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.send-btn:hover {
+    /* Slightly lighter on hover */
+    background-color: #1a3f5f;
+    /* Less aggressive scale on hover */
+    transform: scale(1.02);
+}
+
+.send-btn:active {
+    transform: scale(0.98);
+}
+
+.send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Scrollbar changes for a cleaner look */
+.messages-area::-webkit-scrollbar {
+    width: 6px;
+}
+
+.messages-area::-webkit-scrollbar-track {
+    background: #fcfcfc;
+}
+
+.messages-area::-webkit-scrollbar-thumb {
+    /* Muted scrollbar color */
+    background: #a0a0a0;
+    border-radius: 3px;
+}
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>AI Chatbot</h1>
+            <button class="clear-btn" id="clearBtn">Clear Chat</button>
+        </div>
+
+        <div class="messages-area" id="messagesArea">
+            <div class="message ai">
+                <div class="message-content">👋 Hello! I'm your AI assistant powered by Django. How can I help you today?
+                </div>
+            </div>
+            <div class="typing-indicator" id="typingIndicator">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        </div>
+
+        <div class="input-area">
+            <input 
+                type="text" 
+                id="userInput" 
+                placeholder="Type your message here..."
+                autocomplete="off"
+            >
+            <button class="send-btn" id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const messagesArea = document.getElementById('messagesArea');
+        const userInput = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Django backend URL
+        const API_URL = 'http://localhost:8000/api/chat/';
+
+        function addMessage(text, sender) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = text;
+            
+            messageDiv.appendChild(contentDiv);
+            messagesArea.insertBefore(messageDiv, typingIndicator);
+            scrollToBottom();
+        }
+
+        function scrollToBottom() {
+            messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+
+        function setTyping(isTyping) {
+            if (isTyping) {
+                typingIndicator.classList.add('active');
+            } else {
+                typingIndicator.classList.remove('active');
+            }
+            scrollToBottom();
+        }
+
+        async function getAIResponse(userMessage) {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: userMessage
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('API request failed');
+                }
+
+                const data = await response.json();
+                return data.response;
+            } catch (error) {
+                console.error('Error:', error);
+                return 'Sorry, I encountered an error connecting to the server. Make sure Django is running on http://localhost:8000';
+            }
+        }
+
+        async function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            userInput.disabled = true;
+            sendBtn.disabled = true;
+
+            addMessage(message, 'user');
+            userInput.value = '';
+
+            setTyping(true);
+            const aiResponse = await getAIResponse(message);
+            setTyping(false);
+
+            addMessage(aiResponse, 'ai');
+
+            userInput.disabled = false;
+            sendBtn.disabled = false;
+            userInput.focus();
+        }
+
+        function clearChat() {
+            const messages = messagesArea.querySelectorAll('.message');
+            messages.forEach(msg => msg.remove());
+            addMessage('👋 Hello! I\'m your AI assistant powered by Django. How can I help you today?', 'ai');
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        clearBtn.addEventListener('click', clearChat);
+        userInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        userInput.focus();
+    </script>
+</body>
+</html>
