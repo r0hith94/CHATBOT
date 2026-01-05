@@ -3,6 +3,11 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 import requests
 import json
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
 def index(request):
     return render(request, 'chat/index.html')
@@ -18,14 +23,14 @@ def chat_api(request):
                 return JsonResponse({'error': 'No message provided'}, status=400)
             
             # Groq API Configuration
-            API_KEY = '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'
+           
             API_URL = 'https://api.groq.com/openai/v1/chat/completions'
             
             # Make request to Groq
             response = requests.post(
                 API_URL,
                 headers={
-                    'Authorization': f'Bearer {API_KEY}',
+                    'Authorization': f'Bearer {GROQ_API_KEY}',
                     'Content-Type': 'application/json'
                 },
                 json={
