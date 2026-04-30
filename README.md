@@ -22,12 +22,12 @@ This project demonstrates a full-stack AI chatbot where users can interact in re
 
 ## Features
 
-- ✅ Real-time chat interface  
-- ✅ AI-powered responses using Groq Llama 3.1  
-- ✅ Modern gradient UI with animations  
-- ✅ CORS enabled for API access  
-- ✅ REST API backend using Django  
-- ✅ Fully functional for production use  
+-  Real-time chat interface  
+-  AI-powered responses using Groq Llama 3.1  
+-  Modern gradient UI with animations  
+-  CORS enabled for API access  
+-  REST API backend using Django  
+-  Fully functional for production use  
 
 ---
 
